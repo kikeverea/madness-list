@@ -22,18 +22,19 @@ const TodoList = ({
   const editTodo = (todo: Todo) => setFormTodo(todo)
 
   return (
-    <div className='border border-grey-200 p-4 rounded'>
+    <div className='border border-grey-200 p-4 rounded w-full sm:w-[450px]'>
       <h6>To-Do List</h6>
-      {todoList?.length
-        ? (
-          <ul>
-            {todoList.map((todo: Todo) =>
-              <TodoItem key={todo.id} todo={todo} onEdit={editTodo} onDelete={() => remove(todo)}/>)
-            }
-          </ul>)
-        : <p aria-label='empty list message'>{noItemsMessage}</p>
-      }
-
+      <div className='py-2'>
+        {todoList?.length
+          ? (
+            <ul>
+              {todoList.map((todo: Todo) =>
+                <TodoItem key={todo.id} todo={todo} onEdit={editTodo} onDelete={() => remove(todo)}/>)
+              }
+            </ul>)
+          : <p className='italic text-sm text-gray-500' aria-label='empty list message'>{noItemsMessage}</p>
+        }
+      </div>
       {formTodo !== null
         ? <TodoForm todo={formTodo} onSubmit={save} submitLabel={submitLabel}/>
         : (

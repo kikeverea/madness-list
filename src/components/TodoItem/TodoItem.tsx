@@ -1,5 +1,4 @@
 import type { Todo } from '../TodoList/types.ts'
-import styles from './TodoItem.module.css'
 
 type TodoItemProps = {
   todo: Todo,
@@ -9,14 +8,33 @@ type TodoItemProps = {
 
 const TodoItem = ({ todo, onEdit, onDelete }: TodoItemProps) => {
   return (
-    <li className={ styles.todo }>
-      <label htmlFor={ String(todo.id) } id={ `todo-${todo.id}-title`}>
+    <li className='py-1'>
+      <label htmlFor={ String(todo.id) } id={ `todo-${todo.id}-title`} className='flex justify-between w-full'>
         { todo.title }
-        <input id={ String(todo.id) } type="checkbox" checked={ todo.completed } onChange={() => {}}/>
+        <input
+          id={ String(todo.id) }
+          className='
+            appearance-none
+            ms-4
+            h-[20px] w-[20px]
+            border border-gray-400
+            rounded-full
+            checked:bg-blue-600
+            checked:border-blue-600
+            checked:[&:after]:content-["✓"]
+            checked:[&:after]:text-white
+            checked:[&:after]:text-xs
+            checked:[&:after]:flex
+            checked:[&:after]:items-center
+            checked:[&:after]:justify-center'
+          type="checkbox"
+          checked={ todo.completed }
+          onChange={() => {}}
+        />
       </label>
 
       {/* Action Buttons*/}
-      <div className={ styles.buttonsContainer }>
+      <div className='flex gap-4 py-2'>
         <button onClick={ () => onEdit(todo) } aria-labelledby={`todo-${todo.id}-title edit-label`}>
           <span id='edit-label' aria-label='edit'></span>
         </button>

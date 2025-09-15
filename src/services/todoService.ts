@@ -2,8 +2,7 @@ import type { NewTodo, Todo } from '../components/TodoList/types.ts'
 import { apiFetch } from './apiClient.ts'
 
 const getTodos = async (): Promise<Todo[]> => {
-  const res = await apiFetch<{ todos: Todo[] }>('/todos')
-  return res.todos
+  return await apiFetch<Todo[]>('/todos')
 }
 
 const getTodo = async (id: Todo['id']): Promise<Todo> => {
