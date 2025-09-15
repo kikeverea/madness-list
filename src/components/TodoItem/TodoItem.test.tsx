@@ -1,9 +1,9 @@
-import {beforeEach, describe, expect, test} from 'vitest'
+import { beforeEach, describe, expect, test } from 'vitest'
 import '@testing-library/jest-dom'
-import {render, screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TodoItem from './TodoItem.tsx'
-import type {Todo} from '../TodoList/types.ts'
+import type { Todo } from '../TodoList/types.ts'
 
 const todo: Todo = { id: 1, title: 'Item 1', completed: false }
 
@@ -16,7 +16,7 @@ describe('Todo Item', () => {
     editMock.mockClear()
     deleteMock.mockClear()
 
-    render(<TodoItem todo={ todo } onEdit={ editMock } onDelete={ deleteMock } />)
+    render(<TodoItem todo={todo} onEdit={editMock} onDelete={deleteMock}/>)
   })
 
   test('renders an item', () => {

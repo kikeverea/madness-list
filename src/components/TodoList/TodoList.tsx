@@ -23,8 +23,11 @@ const TodoList = ({
   const { todoList, save, remove } = useTodos({ onSave: hideForm })
 
   return (
-    <div className='border border-grey-200 p-4 rounded w-full sm:w-[450px]'>
-      <h6>To-Do List</h6>
+    <div className='border border-grey-200 pt-4 px-6 pb-6 rounded w-full sm:w-[450px]'>
+      <h6 className='mb-2 underline-offset-8 underline'>
+        To-Do List
+      </h6>
+
       <div className='py-2'>
         {todoList?.length
           ? (
@@ -36,6 +39,7 @@ const TodoList = ({
           : <p className='italic text-sm text-gray-500' aria-label='empty list message'>{noItemsMessage}</p>
         }
       </div>
+
       {formTodo !== null
         ? <TodoForm todo={formTodo} onSubmit={save} onCancel={hideForm} submitLabel={submitLabel}/>
         : (

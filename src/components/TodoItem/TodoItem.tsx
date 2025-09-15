@@ -1,4 +1,6 @@
 import type { Todo } from '../TodoList/types.ts'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 type TodoItemProps = {
   todo: Todo,
@@ -9,10 +11,10 @@ type TodoItemProps = {
 const TodoItem = ({ todo, onEdit, onDelete }: TodoItemProps) => {
   return (
     <li className='py-1'>
-      <label htmlFor={ String(todo.id) } id={ `todo-${todo.id}-title`} className='flex justify-between w-full'>
-        { todo.title }
+      <label htmlFor={String(todo.id)} id={`todo-${todo.id}-title`} className='flex justify-between w-full'>
+        {todo.title}
         <input
-          id={ String(todo.id) }
+          id={String(todo.id)}
           className='
             appearance-none
             ms-4
@@ -28,18 +30,21 @@ const TodoItem = ({ todo, onEdit, onDelete }: TodoItemProps) => {
             checked:[&:after]:items-center
             checked:[&:after]:justify-center'
           type="checkbox"
-          checked={ todo.completed }
-          onChange={() => {}}
+          checked={todo.completed}
+          onChange={() => {
+          }}
         />
       </label>
 
-      {/* Action Buttons*/}
+      {/* Action Buttons */}
       <div className='flex gap-4 py-2'>
-        <button onClick={ () => onEdit(todo) } aria-labelledby={`todo-${todo.id}-title edit-label`}>
-          <span id='edit-label' aria-label='edit'></span>
+        <button onClick={() => onEdit(todo)} aria-labelledby={`todo-${todo.id}-title edit-label`}>
+          <span id='edit-label' aria-label='edit'>
+            <FontAwesomeIcon icon={faPen}/>
+          </span>
         </button>
 
-        <button onClick={ () => onDelete(todo) } aria-labelledby={`todo-${todo.id}-title delete-label`}>
+        <button onClick={() => onDelete(todo)} aria-labelledby={`todo-${todo.id}-title delete-label`}>
           <span id='delete-label' aria-label='delete'></span>
         </button>
       </div>
