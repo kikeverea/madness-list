@@ -11,7 +11,7 @@ type TodoListProps = {
 }
 
 const TodoList = ({
-  newButtonLabel = 'Add new +',
+  newButtonLabel = 'Add new',
   noItemsMessage = 'This list is empty',
   submitLabel = 'Submit',
 }: TodoListProps) => {
@@ -20,6 +20,9 @@ const TodoList = ({
 
   const [ formTodo, setFormTodo ] = useState<Partial<Todo> | null>(null)
   const editTodo = (todo: Todo) => setFormTodo(todo)
+  const hideForm = () => setFormTodo(null)
+
+  const { todoList, save, remove } = useTodos({ onSave: hideForm })
 
   return (
     <div className='border border-grey-200 p-4 rounded w-full sm:w-[450px]'>
@@ -36,9 +39,9 @@ const TodoList = ({
         }
       </div>
       {formTodo !== null
-        ? <TodoForm todo={formTodo} onSubmit={save} submitLabel={submitLabel}/>
+        ? <TodoForm todo={formTodo} onSubmit={save} onCancel={hideForm} submitLabel={submitLabel}/>
         : (
-          <button aria-label='add new todo' onClick={() => setFormTodo({})}>
+          <button className='btn btn-primary' aria-label='add new todo' onClick={() => setFormTodo({})}>
             {newButtonLabel}
           </button>
         )

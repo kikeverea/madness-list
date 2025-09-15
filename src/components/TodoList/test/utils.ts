@@ -13,25 +13,22 @@ export const list: TodoListType = [
 export const getForm = (options?: { optional: boolean }) => {
   const { optional = false } = options || {}
 
-  const showButton = (
+  const showButton = get('button', /add new todo/i, { optional })
+  const titleInput = get('textbox', /todo title/i, { optional })
+  const submit = get('button', /submit todo/i, { optional })
+  const cancel = get('button', /cancel todo/i, { optional })
+
+  return { showButton, titleInput, submit, cancel }
+}
+
+const get = (role: string, name: RegExp, options: { optional: boolean }): HTMLButtonElement => {
+  const { optional = false } = options
+
+  return (
     optional
-      ? screen.queryByRole('button', { name: /add new todo/i })
-      : screen.getByRole('button', { name: /add new todo/i })
+      ? screen.queryByRole(role, { name: name })
+      : screen.getByRole(role, { name: name })
   ) as HTMLButtonElement
-
-  const titleInput = (
-    optional
-      ? screen.queryByRole('textbox', { name: /todo title/i })
-      : screen.getByRole('textbox', { name: /todo title/i })
-  ) as HTMLInputElement
-
-  const submit = (
-    optional
-      ? screen.queryByRole('button', { name: /submit todo/i })
-      : screen.getByRole('button', { name: /submit todo/i })
-  ) as HTMLButtonElement
-
-  return { showButton, titleInput, submit }
 }
 
 export const showForm = async () => {

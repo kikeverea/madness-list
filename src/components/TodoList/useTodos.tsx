@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import api from '../../services/todoService.ts'
 import { isPersisted, type NewTodo, type Todo, type TodoListType } from './types.ts'
 
-const useTodos = () => {
+const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?: (todo: Todo) => void }) => {
 
   const client = useQueryClient()
 
@@ -12,6 +12,7 @@ const useTodos = () => {
     mutationFn: api.createTodo,
     onSuccess: created => {
       client.setQueryData<TodoListType>([ 'todos' ], (prev = []) => [ ...prev, created ])
+      onMutationSuccess?.onSave && onMutationSuccess.onSave(created)
     }
   })
 
@@ -22,6 +23,7 @@ const useTodos = () => {
         [ 'todos' ],
         (prev = []) => prev.map(todo => todo.id === updated.id ? updated : todo)
       )
+      onMutationSuccess?.onSave && onMutationSuccess.onSave(updated)
     }
   })
 

@@ -5,9 +5,10 @@ type TodoFormType = {
   todo: Partial<Todo>,
   submitLabel: string,
   onSubmit: (todo: Omit<Todo, 'id'> & { id?: number | string }) => void
+  onCancel: () => void,
 }
 
-const TodoForm = ({ todo, submitLabel, onSubmit: onTodoSubmit }: TodoFormType) => {
+const TodoForm = ({ todo, submitLabel = 'Submit', onSubmit: onTodoSubmit, onCancel }: TodoFormType) => {
 
   const [ error, setError ] = useState<string | null>(null)
 
@@ -37,6 +38,14 @@ const TodoForm = ({ todo, submitLabel, onSubmit: onTodoSubmit }: TodoFormType) =
           <div className='text-red-500' aria-label='title error'>{error}</div>
         }
         <input type="submit" value={submitLabel} aria-label='submit todo'/>
+        <button
+          type='button'
+          className='btn btn-flush btn-color-muted btn-active-color-primary py-2 px-0'
+          aria-label='cancel todo'
+          onClick={onCancel}
+        >
+          Cancel
+        </button>
       </div>
     </form>
   )

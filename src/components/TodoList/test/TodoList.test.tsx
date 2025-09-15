@@ -50,19 +50,56 @@ describe('Todo List', () => {
     test('clicking on the add new button, hides it and shows the add new form', async () => {
       render(<TodoList/>)
 
-      const { showButton: buttonThen, titleInput: inputThen, submit: submitThen } = getForm({ optional: true })
+      const { showButton, titleInput, submit, cancel } = getForm({ optional: true })
 
-      expect(buttonThen).toBeInTheDocument()
-      expect(inputThen).not.toBeInTheDocument()
-      expect(submitThen).not.toBeInTheDocument()
+      expect(showButton).toBeInTheDocument()
+      expect(titleInput).not.toBeInTheDocument()
+      expect(submit).not.toBeInTheDocument()
+      expect(cancel).not.toBeInTheDocument()
 
-      await userEvent.click(buttonThen)
+      await userEvent.click(showButton)
 
-      const { showButton: buttonNow, titleInput: inputNow, submit: submitNow } = getForm({ optional: true })
+      const { showButton: buttonNow, titleInput: inputNow, submit: submitNow, cancel: cancelNow } =
+        getForm({ optional: true })
 
       expect(buttonNow).not.toBeInTheDocument()
       expect(inputNow).toBeInTheDocument()
       expect(submitNow).toBeInTheDocument()
+      expect(cancelNow).toBeInTheDocument()
+    })
+
+    test('clicking on the cancel button, hides the form', async () => {
+      render(<TodoList/>)
+
+      const { showButton: showButton } = getForm({ optional: true })
+      await userEvent.click(showButton)
+
+      const { cancel } = getForm({ optional: true })
+      await userEvent.click(cancel)
+
+      const { showButton: buttonNow, titleInput: inputNow, submit: submitNow, cancel: cancelNow } =
+        getForm({ optional: true })
+
+      expect(buttonNow).toBeInTheDocument()
+      expect(inputNow).not.toBeInTheDocument()
+      expect(submitNow).not.toBeInTheDocument()
+      expect(cancelNow).not.toBeInTheDocument()
+    })
+
+    test('renders a submit button with a custom label', async () => {
+      render(<TodoList submitLabel='custom label'/>)
+
+      const { submit } = await showForm()
+
+      expect(submit.value).toBe('custom label')
+    })
+
+    test('renders a submit button with a custom label function', async () => {
+      render(<TodoList submitLabel={() => 'custom label function'}/>)
+
+      const { submit } = await showForm()
+
+      expect(submit.value).toBe('custom label function')
     })
   })
 
@@ -105,8 +142,11 @@ describe('Todo List', () => {
       const itemsNow = screen.getAllByRole('listitem')
       const addedItem = itemsNow.find(item => item.textContent === 'new todo')
 
+      const { titleInput: inputNow } = getForm({ optional: true })
+
       expect(itemsNow).toHaveLength(itemsThen.length + 1)
       expect(addedItem).toBeInTheDocument()
+      expect(inputNow).not.toBeInTheDocument()
     })
 
     test('shows error message if title is blank', async () => {
