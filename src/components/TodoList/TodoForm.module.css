@@ -1,0 +1,9 @@
+.form-inputs {
+  display: flex;
+  gap: 8px;
+}
+
+.error-message {
+  color: #B30909;
+  padding: 4px 0;
+}
