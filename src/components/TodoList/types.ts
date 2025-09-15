@@ -4,9 +4,10 @@ export type Todo = {
   completed: boolean,
 }
 
-export type NewTodo = Omit<Todo, 'id'>
+export type NewTodo = Partial<Todo>
+export type FormTodo = NewTodo | Todo
 
-export const isPersisted = (todo: Omit<Todo, 'id'> & { id?: Todo['id'] }): todo is Todo => {
+export const isPersisted = (todo: FormTodo): todo is Todo => {
   return todo.id !== undefined
 }
 

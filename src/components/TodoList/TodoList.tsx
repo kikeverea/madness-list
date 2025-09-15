@@ -1,4 +1,4 @@
-import type { Todo } from './types.ts'
+import type { FormTodo, Todo } from './types.ts'
 import TodoForm from './TodoForm.tsx'
 import { useState } from 'react'
 import TodoItem from '../TodoItem/TodoItem.tsx'
@@ -7,18 +7,16 @@ import useTodos from './useTodos.tsx'
 type TodoListProps = {
   newButtonLabel?: string
   noItemsMessage?: string
-  submitLabel?: string
+  submitLabel?: string | ((todo: FormTodo) => string)
 }
 
 const TodoList = ({
   newButtonLabel = 'Add new',
   noItemsMessage = 'This list is empty',
-  submitLabel = 'Submit',
+  submitLabel,
 }: TodoListProps) => {
 
-  const { todoList, save, remove } = useTodos()
-
-  const [ formTodo, setFormTodo ] = useState<Partial<Todo> | null>(null)
+  const [ formTodo, setFormTodo ] = useState<FormTodo | null>(null)
   const editTodo = (todo: Todo) => setFormTodo(todo)
   const hideForm = () => setFormTodo(null)
 

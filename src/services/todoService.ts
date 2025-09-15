@@ -1,4 +1,4 @@
-import type { NewTodo, Todo } from '../components/TodoList/types.ts'
+import type { FormTodo, Todo } from '../components/TodoList/types.ts'
 import { apiFetch } from './apiClient.ts'
 
 const getTodos = async (): Promise<Todo[]> => {
@@ -9,7 +9,7 @@ const getTodo = async (id: Todo['id']): Promise<Todo> => {
   return await apiFetch<Todo>(`/todos/${id}`)
 }
 
-const createTodo = async (payload: NewTodo): Promise<Todo> => {
+const createTodo = async (payload: FormTodo): Promise<Todo> => {
   return await apiFetch<Todo>(`/todos`, {
     method: 'POST',
     body: JSON.stringify(payload),
