@@ -12,4 +12,11 @@ export default defineConfig({
     include: [ '**/*.{test,spec}.{js,ts,jsx,tsx}' ],
     exclude: [ ...configDefaults.exclude, 'node_modules', 'dist' ],
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000'
+      }
+    }
+  }
 })

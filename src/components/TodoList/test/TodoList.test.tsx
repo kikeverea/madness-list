@@ -69,7 +69,7 @@ describe('Todo List', () => {
   describe('with data', () => {
 
     beforeEach(() => {
-      server.use(http.get('api/todos', () => HttpResponse.json({ todos: list })))
+      server.use(http.get('api/todos', () => HttpResponse.json(list)))
       render(<TodoList/>)
     })
 
