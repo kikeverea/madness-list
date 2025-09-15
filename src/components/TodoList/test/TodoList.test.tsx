@@ -1,0 +1,149 @@
+import { beforeEach, describe, expect, test } from 'vitest'
+import { http, HttpResponse } from 'msw'
+import '@testing-library/jest-dom'
+import { screen, within } from '@testing-library/react'
+import { server } from '../../../test/server.ts'
+import userEvent from '@testing-library/user-event'
+import TodoList from '../TodoList.tsx'
+import type { Todo } from '../types.ts'
+import { render } from '../../../test/utils.tsx'
+import { getForm, getTodo, showForm, list } from './utils.ts'
+
+describe('Todo List', () => {
+
+  describe('no data', () => {
+
+    beforeEach(() => {
+      server.use(http.get('api/todos', () => HttpResponse.json({ todos: [] })))
+    })
+
+    test('renders the empty message', async () => {
+      render(<TodoList/>)
+
+      const emptyMessage = screen.getByLabelText('empty list message')
+      expect(emptyMessage.textContent).toBe('This list is empty')
+    })
+
+    test('renders a custom empty message', async () => {
+      render(<TodoList noItemsMessage='Custom message'/>)
+
+      const emptyMessage = screen.getByLabelText('empty list message')
+      expect(emptyMessage.textContent).toBe('Custom message')
+    })
+
+    test('renders an add button', async () => {
+      render(<TodoList/>)
+
+      const button = await screen.findByRole('button', { name: /add new todo/i })
+
+      expect(button).toBeInTheDocument()
+    })
+
+    test('renders an add button with a custom label', async () => {
+      render(<TodoList newButtonLabel='new button label'/>)
+
+      const button = await screen.findByRole('button', { name: /add new todo/i })
+
+      expect(button.textContent).toBe('new button label')
+    })
+
+    test('clicking on the add new button, hides it and shows the add new form', async () => {
+      render(<TodoList/>)
+
+      const { showButton: buttonThen, titleInput: inputThen, submit: submitThen } = getForm({ optional: true })
+
+      expect(buttonThen).toBeInTheDocument()
+      expect(inputThen).not.toBeInTheDocument()
+      expect(submitThen).not.toBeInTheDocument()
+
+      await userEvent.click(buttonThen)
+
+      const { showButton: buttonNow, titleInput: inputNow, submit: submitNow } = getForm({ optional: true })
+
+      expect(buttonNow).not.toBeInTheDocument()
+      expect(inputNow).toBeInTheDocument()
+      expect(submitNow).toBeInTheDocument()
+    })
+  })
+
+  describe('with data', () => {
+
+    beforeEach(() => {
+      server.use(http.get('api/todos', () => HttpResponse.json({ todos: list })))
+      render(<TodoList/>)
+    })
+
+    test('renders a list', async () => {
+      render(<TodoList/>)
+
+      const list = await screen.findByRole('list')
+
+      expect(list).toBeInTheDocument()
+    })
+
+    test('renders all items', async () => {
+      const items = await screen.findAllByRole('listitem')
+
+      expect(items).toHaveLength(list.length)
+
+      list.forEach((item: Todo, index: number) => {
+        const checkbox = screen.getByRole('checkbox', { name: item.title }) as HTMLInputElement
+        const todo = list[index]
+
+        expect(checkbox.checked).toBe(todo.completed)
+      })
+    })
+
+    test('add item to the list', async () => {
+      const itemsThen = await screen.findAllByRole('listitem')
+
+      const { titleInput, submit } = await showForm()
+
+      await userEvent.type(titleInput, 'new todo')
+      await userEvent.click(submit)
+
+      const itemsNow = screen.getAllByRole('listitem')
+      const addedItem = itemsNow.find(item => item.textContent === 'new todo')
+
+      expect(itemsNow).toHaveLength(itemsThen.length + 1)
+      expect(addedItem).toBeInTheDocument()
+    })
+
+    test('shows error message if title is blank', async () => {
+      const itemsThen = await screen.findAllByRole('listitem')
+
+      const { submit } = await showForm()
+
+      await userEvent.click(submit)
+
+      const itemsNow = screen.getAllByRole('listitem')
+      const errorMessage = screen.getByLabelText('title error')
+
+      expect(itemsNow).toHaveLength(itemsThen.length)
+      expect(errorMessage).toBeInTheDocument()
+    })
+
+    test("clicking an item's edit button shows the form with the todo's title", async () => {
+      const [ todoElement, todo ] = await getTodo()
+
+      const titlePattern = new RegExp(`${todo.title} edit`, 'i')
+      const editButton = within(todoElement).getByRole('button', { name: titlePattern })
+
+      await userEvent.click(editButton)
+
+      const titleInput = screen.getByRole('textbox') as HTMLInputElement
+      expect(titleInput.value).toBe(todo.title)
+    })
+
+    test("clicking an item's delete button removes the item", async () => {
+      const [ todoElement, todo ] = await getTodo()
+
+      const titlePattern = new RegExp(`${todo.title} delete`, 'i')
+      const deleteButton = within(todoElement).getByRole('button', { name: titlePattern })
+
+      await userEvent.click(deleteButton)
+
+      expect(todoElement).not.toBeInTheDocument()
+    })
+  })
+})
