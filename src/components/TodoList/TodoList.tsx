@@ -22,7 +22,8 @@ const TodoList = ({
   const editTodo = (todo: Todo) => setFormTodo(todo)
 
   return (
-    <>
+    <div className='border border-grey-200 p-4 rounded'>
+      <h6>To-Do List</h6>
       {todoList?.length
         ? (
           <ul>
@@ -41,7 +42,7 @@ const TodoList = ({
           </button>
         )
       }
-    </>
+    </div>
   )
 }
 

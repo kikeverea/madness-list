@@ -1,13 +1,16 @@
-import './App.css'
-import { QueryClientProvider, useQueryClient } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import TodoList from './components/TodoList/TodoList.tsx'
+
+const queryClient = new QueryClient()
 
 function App() {
-  const queryClient = useQueryClient()
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}/>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <div className='m-8 h-full'>
+        <TodoList/>
+      </div>
+    </QueryClientProvider>
   )
 }
 
