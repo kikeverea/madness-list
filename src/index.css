@@ -79,4 +79,22 @@
   .btn-active-color-danger {
     @apply hover:text-red-700;
   }
+
+  .checkbox {
+    @apply
+      appearance-none
+      ms-4
+      h-[20px] w-[20px]
+      border border-gray-400
+      rounded-full
+      checked:bg-blue-600
+      checked:border-blue-600
+      checked:[&:after]:content-["✓"]
+      checked:[&:after]:text-white
+      checked:[&:after]:text-xs
+      checked:[&:after]:flex
+      checked:[&:after]:items-center
+      checked:[&:after]:justify-center
+      cursor-pointer;
+  }
 }

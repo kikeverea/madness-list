@@ -12,7 +12,7 @@ const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?
     mutationFn: api.createTodo,
     onSuccess: created => {
       client.setQueryData<TodoListType>([ 'todos' ], (prev = []) => [ ...prev, created ])
-      onMutationSuccess?.onSave && onMutationSuccess.onSave(created)
+      if (onMutationSuccess?.onSave) onMutationSuccess.onSave(created)
     }
   })
 
@@ -23,7 +23,7 @@ const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?
         [ 'todos' ],
         (prev = []) => prev.map(todo => todo.id === updated.id ? updated : todo)
       )
-      onMutationSuccess?.onSave && onMutationSuccess.onSave(updated)
+      if (onMutationSuccess?.onSave) onMutationSuccess.onSave(updated)
     }
   })
 
@@ -31,7 +31,7 @@ const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?
     mutationFn: api.deleteTodo,
     onSuccess: deleted => {
       client.setQueryData<TodoListType>([ 'todos' ], (prev = []) => prev.filter(todo => todo.id !== deleted.id))
-      onMutationSuccess?.onRemove && onMutationSuccess.onRemove(deleted)
+      if (onMutationSuccess?.onRemove) onMutationSuccess.onRemove(deleted)
     }
   })
 

@@ -14,13 +14,12 @@ export const handlers = [
     })
   }),
 
-  http.put<{ id: string }>('/api/todos/:id', async ({ request, params }) => {
+  http.put<{ id: string }>('/api/todos/:id', async ({ request }) => {
 
     const todo = await request.clone().json()
-    const { id } = params;
 
     return HttpResponse.json({
-      id: id,
+      id: todo.id,
       title: todo.title,
       completed: todo.completed,
     })

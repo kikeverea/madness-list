@@ -10,25 +10,17 @@ export const list: TodoListType = [
   { id: 5, title: 'Item 5', completed: true },
 ]
 
-export const getForm = (options?: { optional: boolean }) => {
-  const { optional = false } = options || {}
-
-  const showButton = get('button', /add new todo/i, { optional })
-  const titleInput = get('textbox', /todo title/i, { optional })
-  const submit = get('button', /submit todo/i, { optional })
-  const cancel = get('button', /cancel todo/i, { optional })
+export const getForm = () => {
+  const showButton = get('button', /add new todo/i)
+  const titleInput = get('textbox', /todo title/i)
+  const submit = get('button', /submit todo/i)
+  const cancel = get('button', /cancel todo/i)
 
   return { showButton, titleInput, submit, cancel }
 }
 
-const get = (role: string, name: RegExp, options: { optional: boolean }): HTMLButtonElement => {
-  const { optional = false } = options
-
-  return (
-    optional
-      ? screen.queryByRole(role, { name: name })
-      : screen.getByRole(role, { name: name })
-  ) as HTMLButtonElement
+const get = (role: string, name: RegExp): HTMLButtonElement => {
+  return screen.queryByRole(role, { name: name }) as HTMLButtonElement
 }
 
 export const showForm = async () => {
@@ -36,12 +28,20 @@ export const showForm = async () => {
 
   await userEvent.click(showButton)
 
-  return getForm({ optional: true })
+  return getForm()
 }
 
-export const getTodo = async (index?: number): Promise<readonly [ HTMLElement, Todo ]> => {
+export const getTodo = async (index?: number): Promise<readonly [ HTMLElement, Todo, number ]> => {
   const items = await screen.findAllByRole('listitem')
-  const randIndex = index ?? Math.floor(Math.random() * items.length)
+  return randomTodo(items, index)
+}
 
-  return [ items[randIndex], list[randIndex] ]
+export const getTodoSync = (index?: number): readonly [ HTMLElement, Todo, number ] => {
+  const items = screen.getAllByRole('listitem')
+  return randomTodo(items, index)
+}
+
+const randomTodo = (items: HTMLElement[], index?: number): readonly [ HTMLElement, Todo, number ] => {
+  const randIndex = index ?? Math.floor(Math.random() * items.length)
+  return [ items[randIndex], list[randIndex], randIndex ]
 }

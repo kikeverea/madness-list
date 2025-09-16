@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import '@testing-library/jest-dom'
-import { screen, within } from '@testing-library/react'
+import {screen, waitFor, within} from '@testing-library/react'
 import { server } from '../../../test/server.ts'
 import userEvent from '@testing-library/user-event'
 import TodoList from '../TodoList.tsx'
 import type { Todo } from '../types.ts'
 import { render } from '../../../test/utils.tsx'
-import { getForm, getTodo, showForm, list } from './utils.ts'
+import {getForm, getTodo, showForm, list, getTodoSync} from './utils.ts'
 
 describe('Todo List', () => {
 
@@ -50,7 +50,7 @@ describe('Todo List', () => {
     test('clicking on the add new button, hides it and shows the add new form', async () => {
       render(<TodoList/>)
 
-      const { showButton, titleInput, submit, cancel } = getForm({ optional: true })
+      const { showButton, titleInput, submit, cancel } = getForm()
 
       expect(showButton).toBeInTheDocument()
       expect(titleInput).not.toBeInTheDocument()
@@ -60,7 +60,7 @@ describe('Todo List', () => {
       await userEvent.click(showButton)
 
       const { showButton: buttonNow, titleInput: inputNow, submit: submitNow, cancel: cancelNow } =
-        getForm({ optional: true })
+        getForm()
 
       expect(buttonNow).not.toBeInTheDocument()
       expect(inputNow).toBeInTheDocument()
@@ -71,14 +71,14 @@ describe('Todo List', () => {
     test('clicking on the cancel button, hides the form', async () => {
       render(<TodoList/>)
 
-      const { showButton: showButton } = getForm({ optional: true })
+      const { showButton: showButton } = getForm()
       await userEvent.click(showButton)
 
-      const { cancel } = getForm({ optional: true })
+      const { cancel } = getForm()
       await userEvent.click(cancel)
 
       const { showButton: buttonNow, titleInput: inputNow, submit: submitNow, cancel: cancelNow } =
-        getForm({ optional: true })
+        getForm()
 
       expect(buttonNow).toBeInTheDocument()
       expect(inputNow).not.toBeInTheDocument()
@@ -142,7 +142,7 @@ describe('Todo List', () => {
       const itemsNow = screen.getAllByRole('listitem')
       const addedItem = itemsNow.find(item => item.textContent === 'new todo')
 
-      const { titleInput: inputNow } = getForm({ optional: true })
+      const { titleInput: inputNow } = getForm()
 
       expect(itemsNow).toHaveLength(itemsThen.length + 1)
       expect(addedItem).toBeInTheDocument()
@@ -173,6 +173,26 @@ describe('Todo List', () => {
 
       const titleInput = screen.getByRole('textbox') as HTMLInputElement
       expect(titleInput.value).toBe(todo.title)
+    })
+
+    test("update a list item", async () => {
+      const [ todoElement, todo, index] = await getTodo()
+      const textThen = todoElement.textContent
+
+
+      const titlePattern = new RegExp(`${todo.title} edit`, 'i')
+      const editButton = within(todoElement).getByRole('button', { name: titlePattern })
+      await userEvent.click(editButton)
+
+      const { titleInput, submit } = getForm()
+      await userEvent.type(titleInput, " - Edited")
+      await userEvent.click(submit)
+
+      await waitFor(async () => {
+        const [ updatedElement ] = getTodoSync(index)
+
+        expect(updatedElement.textContent).toBe(`${textThen} - Edited`)
+      })
     })
 
     test("clicking an item's delete button removes the item", async () => {
