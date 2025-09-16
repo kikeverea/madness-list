@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import TodoList from '../TodoList.tsx'
 import type { Todo } from '../types.ts'
 import { render } from '../../../test/utils.tsx'
-import { getForm, getTodo, showForm, list, getTodoSync } from './utils.ts'
+import { getForm, getTodo, showForm, list, getTodoSync, showListForm, getListForm } from './utils.ts'
 
 describe('Todo List', () => {
 
@@ -28,7 +28,57 @@ describe('Todo List', () => {
       render(<TodoList/>)
 
       const title = screen.getByRole('heading', { level: 6 })
-      expect(title.textContent).toBe('To-Do list')
+      expect(title.textContent).toBe('To-Do List')
+    })
+
+    test("clicking on the list edit button shows the list's form", async () => {
+      const listName = 'test'
+
+      render(<TodoList name={listName}/>)
+
+      const namePattern = new RegExp(`edit ${listName}`, 'i')
+      const editButton = screen.getByRole('button', { name: namePattern })
+
+      await userEvent.click(editButton)
+
+      const { nameInput, submit, cancel } = getListForm()
+
+      expect(nameInput).toBeInTheDocument()
+      expect(submit).toBeInTheDocument()
+      expect(cancel).toBeInTheDocument()
+    })
+
+    test("clicking on the cancel list edit button hides the list's form", async () => {
+      const listName = 'test'
+
+      render(<TodoList name={listName}/>)
+
+      const namePattern = new RegExp(`edit ${listName}`, 'i')
+      const editButton = screen.getByRole('button', { name: namePattern })
+
+      await userEvent.click(editButton)
+
+      const { cancel } = getListForm()
+      await userEvent.click(cancel)
+
+      const { nameInput } = getListForm()
+
+      expect(nameInput).not.toBeInTheDocument()
+    })
+
+    test("updates the list's name", async () => {
+      const listName = 'test'
+
+      render(<TodoList name={listName}/>)
+
+      const { nameInput, submit } = await showListForm(listName)
+
+      await userEvent.type(nameInput, 'new list name')
+      await userEvent.click(submit)
+
+      const title = screen.getByRole('heading', { level: 6 })
+
+      expect(title.textContent).toBe('new list name')
     })
 
     test('renders the empty message', async () => {

@@ -36,6 +36,19 @@
     @apply bg-blue-600 text-white hover:bg-blue-700;
   }
 
+  .btn-color-success {
+    @apply bg-green-600 hover:bg-green-700;
+  }
+
+  .btn-info {
+    @apply bg-purple-600 hover:bg-purple-700;
+  }
+
+  .btn-color-danger {
+    @apply bg-red-700 hover:bg-red-800;
+  }
+
+
   .btn-link {
     @apply text-blue-600 hover:text-blue-700;
   }
@@ -82,19 +95,19 @@
 
   .checkbox {
     @apply
-      appearance-none
-      ms-4
-      h-[20px] w-[20px]
-      border border-gray-400
-      rounded-full
-      checked:bg-blue-600
-      checked:border-blue-600
-      checked:[&:after]:content-["✓"]
-      checked:[&:after]:text-white
-      checked:[&:after]:text-xs
-      checked:[&:after]:flex
-      checked:[&:after]:items-center
-      checked:[&:after]:justify-center
-      cursor-pointer;
+    appearance-none
+    ms-4
+    h-[20px] w-[20px]
+    border border-gray-400
+    rounded-full
+    checked:bg-blue-600
+    checked:border-blue-600
+    checked:[&:after]:content-["✓"]
+    checked:[&:after]:text-white
+    checked:[&:after]:text-xs
+    checked:[&:after]:flex
+    checked:[&:after]:items-center
+    checked:[&:after]:justify-center
+    cursor-pointer;
   }
 }

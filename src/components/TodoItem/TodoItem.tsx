@@ -14,7 +14,8 @@ const TodoItem = ({ todo, onChecked, onEdit, onDelete }: TodoItemProps) => {
   return (
     <li className='py-2 gap-4 group hover:bg-gray-400 dark:hover:bg-gray-800'>
       <label htmlFor={String(todo.id)} id={`todo-${todo.id}-title`}
-        className='flex justify-between items-center w-full'>
+        className='flex justify-between items-center w-full'
+      >
         {todo.title}
 
         <div className='flex items-center justify-end'>
@@ -24,6 +25,7 @@ const TodoItem = ({ todo, onChecked, onEdit, onDelete }: TodoItemProps) => {
             <IconButton
               icon={<FontAwesomeIcon icon={faTrash}/>}
               color='danger'
+              className='me-2'
               onClick={() => onDelete(todo)}
               ariaLabel='delete'
               labeledBy={`todo-${todo.id}-title`}
@@ -32,6 +34,7 @@ const TodoItem = ({ todo, onChecked, onEdit, onDelete }: TodoItemProps) => {
             <IconButton
               icon={<FontAwesomeIcon icon={faPen}/>}
               color='success'
+              className='me-2'
               onClick={() => onEdit(todo)}
               ariaLabel='edit'
               labeledBy={`todo-${todo.id}-title`}

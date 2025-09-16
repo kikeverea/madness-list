@@ -19,8 +19,12 @@ export const getForm = () => {
   return { showButton, titleInput, submit, cancel }
 }
 
-const get = (role: string, name: RegExp): HTMLButtonElement => {
-  return screen.queryByRole(role, { name: name }) as HTMLButtonElement
+export const getListForm = () => {
+  const nameInput = get('textbox', /todo-list title/i)
+  const submit = get('button', /submit todo-list/i)
+  const cancel = get('button', /cancel todo-list/i)
+
+  return { nameInput, submit, cancel }
 }
 
 export const showForm = async () => {
@@ -31,6 +35,15 @@ export const showForm = async () => {
   return getForm()
 }
 
+export const showListForm = async (listName: string) => {
+  const pattern = new RegExp(`${listName} edit`, 'i')
+  const editButton = screen.getByRole('button', { name: pattern }) as HTMLButtonElement
+
+  await userEvent.click(editButton)
+
+  return getListForm()
+}
+
 export const getTodo = async (index?: number): Promise<readonly [ HTMLElement, Todo, number ]> => {
   const items = await screen.findAllByRole('listitem')
   return randomTodo(items, index)
@@ -39,6 +52,10 @@ export const getTodo = async (index?: number): Promise<readonly [ HTMLElement, T
 export const getTodoSync = (index?: number): readonly [ HTMLElement, Todo, number ] => {
   const items = screen.getAllByRole('listitem')
   return randomTodo(items, index)
+}
+
+const get = (role: string, name: RegExp): HTMLButtonElement => {
+  return screen.queryByRole(role, { name: name }) as HTMLButtonElement
 }
 
 const randomTodo = (items: HTMLElement[], index?: number): readonly [ HTMLElement, Todo, number ] => {

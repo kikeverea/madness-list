@@ -1,0 +1,1 @@
+export type FormDataEntries = { [k: string]: FormDataEntryValue }

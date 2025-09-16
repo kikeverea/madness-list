@@ -1,8 +1,12 @@
 import type { FormTodo, Todo } from './types.ts'
 import TodoForm from './TodoForm.tsx'
+import ListForm from './ListForm.tsx'
 import { useState } from 'react'
 import TodoItem from '../TodoItem/TodoItem.tsx'
 import useTodos from './useTodos.tsx'
+import IconButton from '../IconButton.tsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 type TodoListProps = {
   name?: string
@@ -19,15 +23,35 @@ const TodoList = ({
 }: TodoListProps) => {
 
   const [ formTodo, setFormTodo ] = useState<FormTodo | null>(null)
-  const hideForm = () => setFormTodo(null)
+  const [ editList, setEditList ] = useState<boolean>(false)
 
-  const { todoList, save, remove } = useTodos({ onSave: hideForm })
+  const hideListForm = () => setEditList(false)
+  const hideTodoForm = () => setFormTodo(null)
+
+  const { todoList, save, remove } = useTodos({ onSave: hideTodoForm })
 
   return (
-    <div className='border border-grey-200 pt-4 px-6 pb-6 rounded w-full sm:w-[450px]'>
-      <h6 className='mb-2 underline-offset-8 underline'>
-        {name}
-      </h6>
+    <div className='border border-grey-200 pt-4 px-6 pb-6 rounded w-full sm:w-[450px]' aria-labelledby='list-name'>
+      <header className='flex items-center justify-between group'>
+        {editList
+          ? <ListForm value={name} onSubmit={() => ({})} onCancel={hideListForm} submitLabel='Save'/>
+          : (
+            <>
+              <h6 id='list-name' className='mb-2 underline-offset-8 underline'>
+                {name}
+              </h6>
+              <IconButton
+                className='hidden group-hover:block'
+                icon={<FontAwesomeIcon icon={faPen}/>}
+                color='success'
+                onClick={() => setEditList(true)}
+                ariaLabel='edit'
+                labeledBy='list-name'
+              />
+            </>)
+        }
+
+      </header>
 
       <div className='py-2'>
         {todoList?.length
@@ -48,7 +72,7 @@ const TodoList = ({
       </div>
 
       {formTodo !== null
-        ? <TodoForm todo={formTodo} onSubmit={save} onCancel={hideForm} submitLabel={submitLabel}/>
+        ? <TodoForm value={formTodo} onSubmit={save} onCancel={hideTodoForm} submitLabel={submitLabel}/>
         : (
           <button className='btn btn-primary' aria-label='add new todo' onClick={() => setFormTodo({})}>
             {newButtonLabel}

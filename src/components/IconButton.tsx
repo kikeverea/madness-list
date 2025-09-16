@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react'
+import type { ReactNode } from 'react'
 
 type IconButtonProps = {
   icon: ReactNode,
@@ -8,9 +8,19 @@ type IconButtonProps = {
   onClick: () => void,
   labeledBy?: string,
   ariaLabel?: string,
+  className?: string,
 }
 
-const IconButton = ({ icon, color, buttonColor, activeColor, onClick, labeledBy, ariaLabel }: IconButtonProps) => {
+const IconButton = ({
+  icon,
+  color,
+  buttonColor,
+  activeColor,
+  onClick,
+  className,
+  labeledBy,
+  ariaLabel
+}: IconButtonProps) => {
 
   const colorScheme = color
     ? `btn-color-muted btn-active-color-${color}`
@@ -18,12 +28,12 @@ const IconButton = ({ icon, color, buttonColor, activeColor, onClick, labeledBy,
 
   return (
     <button
-      className={`btn btn-flush ${colorScheme} me-2 text-sm`}
+      className={`btn btn-flush ${colorScheme} text-sm ${className}`}
       onClick={() => onClick()}
-      aria-labelledby={labeledBy}
+      aria-labelledby={`${ariaLabel}-label ${labeledBy}`}
     >
       <span id={`${ariaLabel}-label`} aria-label={ariaLabel}>
-        { icon }
+        {icon}
       </span>
     </button>
   )
