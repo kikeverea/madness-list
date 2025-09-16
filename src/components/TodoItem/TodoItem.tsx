@@ -5,14 +5,16 @@ import IconButton from '../IconButton.tsx'
 
 type TodoItemProps = {
   todo: Todo,
+  onChecked: (todo: Todo) => void,
   onEdit: (todo: Todo) => void,
   onDelete: (todo: Todo) => void,
 }
 
-const TodoItem = ({ todo, onEdit, onDelete }: TodoItemProps) => {
+const TodoItem = ({ todo, onChecked, onEdit, onDelete }: TodoItemProps) => {
   return (
     <li className='py-2 gap-4 group hover:bg-gray-400 dark:hover:bg-gray-800'>
-      <label htmlFor={String(todo.id)} id={`todo-${todo.id}-title`} className='flex justify-between items-center w-full'>
+      <label htmlFor={String(todo.id)} id={`todo-${todo.id}-title`}
+        className='flex justify-between items-center w-full'>
         {todo.title}
 
         <div className='flex items-center justify-end'>
@@ -41,8 +43,7 @@ const TodoItem = ({ todo, onEdit, onDelete }: TodoItemProps) => {
             className='checkbox'
             type="checkbox"
             checked={todo.completed}
-            onChange={() => {
-            }}
+            onChange={() => onChecked({ ...todo, completed: !todo.completed })}
           />
         </div>
 

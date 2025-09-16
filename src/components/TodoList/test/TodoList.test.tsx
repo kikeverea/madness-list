@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import '@testing-library/jest-dom'
-import {screen, waitFor, within} from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import { server } from '../../../test/server.ts'
 import userEvent from '@testing-library/user-event'
 import TodoList from '../TodoList.tsx'
 import type { Todo } from '../types.ts'
 import { render } from '../../../test/utils.tsx'
-import {getForm, getTodo, showForm, list, getTodoSync} from './utils.ts'
+import { getForm, getTodo, showForm, list, getTodoSync } from './utils.ts'
 
 describe('Todo List', () => {
 
@@ -175,10 +175,25 @@ describe('Todo List', () => {
       expect(titleInput.value).toBe(todo.title)
     })
 
-    test("update a list item", async () => {
-      const [ todoElement, todo, index] = await getTodo()
-      const textThen = todoElement.textContent
+    test("checks a list item", async () => {
+      const [ todoElement, _todo, index ] = await getTodo()
 
+      const checkButton = within(todoElement).getByRole('checkbox') as HTMLInputElement
+      const checkedThen = checkButton.checked
+      
+      await userEvent.click(checkButton)
+
+      await waitFor(async () => {
+        const [ updatedElement ] = getTodoSync(index)
+        const checkButtonNow = within(updatedElement).getByRole('checkbox') as HTMLInputElement
+
+        expect(checkButtonNow.checked).toBe(!checkedThen)
+      })
+    })
+
+    test("update a list item", async () => {
+      const [ todoElement, todo, index ] = await getTodo()
+      const textThen = todoElement.textContent
 
       const titlePattern = new RegExp(`${todo.title} edit`, 'i')
       const editButton = within(todoElement).getByRole('button', { name: titlePattern })

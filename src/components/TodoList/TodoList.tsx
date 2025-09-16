@@ -17,7 +17,6 @@ const TodoList = ({
 }: TodoListProps) => {
 
   const [ formTodo, setFormTodo ] = useState<FormTodo | null>(null)
-  const editTodo = (todo: Todo) => setFormTodo(todo)
   const hideForm = () => setFormTodo(null)
 
   const { todoList, save, remove } = useTodos({ onSave: hideForm })
@@ -33,7 +32,13 @@ const TodoList = ({
           ? (
             <ul>
               {todoList.map((todo: Todo) =>
-                <TodoItem key={todo.id} todo={todo} onEdit={editTodo} onDelete={() => remove(todo)}/>)
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  onChecked={save}
+                  onEdit={setFormTodo}
+                  onDelete={remove}
+                />)
               }
             </ul>)
           : <p className='italic text-sm text-gray-500' aria-label='empty list message'>{noItemsMessage}</p>

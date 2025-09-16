@@ -9,19 +9,29 @@ const todo: Todo = { id: 1, title: 'Item 1', completed: false }
 
 describe('Todo Item', () => {
 
+  const checkMock = vi.fn()
   const editMock = vi.fn()
   const deleteMock = vi.fn()
 
   beforeEach(() => {
+    checkMock.mockClear()
     editMock.mockClear()
     deleteMock.mockClear()
 
-    render(<TodoItem todo={todo} onEdit={editMock} onDelete={deleteMock}/>)
+    render(<TodoItem todo={todo} onChecked={checkMock} onEdit={editMock} onDelete={deleteMock}/>)
   })
 
   test('renders an item', () => {
     const item = screen.getByRole('listitem')
     expect(item.textContent).toBe(todo.title)
+  })
+
+  test('clicking the check button calls its handler', async () => {
+    const checkbox = screen.getByRole('checkbox')
+
+    await userEvent.click(checkbox)
+
+    expect(checkMock).toHaveBeenCalledWith(todo)
   })
 
   test('renders an edit button', () => {
