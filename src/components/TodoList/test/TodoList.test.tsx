@@ -17,6 +17,20 @@ describe('Todo List', () => {
       server.use(http.get('api/todos', () => HttpResponse.json({ todos: [] })))
     })
 
+    test("renders the list's name", async () => {
+      render(<TodoList name='list name'/>)
+
+      const title = screen.getByRole('heading', { level: 6 })
+      expect(title.textContent).toBe('list name')
+    })
+
+    test('renders a default list name if one is not provided', async () => {
+      render(<TodoList/>)
+
+      const title = screen.getByRole('heading', { level: 6 })
+      expect(title.textContent).toBe('To-Do list')
+    })
+
     test('renders the empty message', async () => {
       render(<TodoList/>)
 
@@ -180,7 +194,7 @@ describe('Todo List', () => {
 
       const checkButton = within(todoElement).getByRole('checkbox') as HTMLInputElement
       const checkedThen = checkButton.checked
-      
+
       await userEvent.click(checkButton)
 
       await waitFor(async () => {

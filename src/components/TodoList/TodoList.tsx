@@ -5,12 +5,14 @@ import TodoItem from '../TodoItem/TodoItem.tsx'
 import useTodos from './useTodos.tsx'
 
 type TodoListProps = {
+  name?: string
   newButtonLabel?: string
   noItemsMessage?: string
   submitLabel?: string | ((todo: FormTodo) => string)
 }
 
 const TodoList = ({
+  name = 'To-Do List',
   newButtonLabel = 'Add new',
   noItemsMessage = 'This list is empty',
   submitLabel,
@@ -24,7 +26,7 @@ const TodoList = ({
   return (
     <div className='border border-grey-200 pt-4 px-6 pb-6 rounded w-full sm:w-[450px]'>
       <h6 className='mb-2 underline-offset-8 underline'>
-        To-Do List
+        {name}
       </h6>
 
       <div className='py-2'>
