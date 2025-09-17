@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import TodoList from '../TodoList.tsx'
 import type { Todo } from '../../types.ts'
 import { render } from '../../../test/utils.tsx'
-import { getForm, getTodo, showForm, list, getTodoSync, showListForm, getListForm } from './utils.ts'
+import { getForm, getTodo, showForm, list, getTodoSync, getListForm } from './utils.ts'
 
 describe('Todo List', () => {
 
@@ -188,7 +188,7 @@ describe('Todo List', () => {
       expect(items).toHaveLength(list.length)
 
       list.forEach((item: Todo, index: number) => {
-        const checkbox = screen.getByRole('checkbox', { name: item.title }) as HTMLInputElement
+        const checkbox = screen.getByRole('checkbox', { name: `mark ${item.title}` }) as HTMLInputElement
         const todo = list[index]
 
         expect(checkbox.checked).toBe(todo.completed)
@@ -230,7 +230,7 @@ describe('Todo List', () => {
     test("clicking an item's edit button shows the form with the todo's title", async () => {
       const [ todoElement, todo ] = await getTodo()
 
-      const titlePattern = new RegExp(`${todo.title} edit`, 'i')
+      const titlePattern = new RegExp(`edit ${todo.title}`, 'i')
       const editButton = within(todoElement).getByRole('button', { name: titlePattern })
 
       await userEvent.click(editButton)
@@ -259,7 +259,7 @@ describe('Todo List', () => {
       const [ todoElement, todo, index ] = await getTodo()
       const textThen = todoElement.textContent
 
-      const titlePattern = new RegExp(`${todo.title} edit`, 'i')
+      const titlePattern = new RegExp(`edit ${todo.title}`, 'i')
       const editButton = within(todoElement).getByRole('button', { name: titlePattern })
       await userEvent.click(editButton)
 
@@ -277,7 +277,7 @@ describe('Todo List', () => {
     test("clicking an item's delete button removes the item", async () => {
       const [ todoElement, todo ] = await getTodo()
 
-      const titlePattern = new RegExp(`${todo.title} delete`, 'i')
+      const titlePattern = new RegExp(`delete ${todo.title}`, 'i')
       const deleteButton = within(todoElement).getByRole('button', { name: titlePattern })
 
       await userEvent.click(deleteButton)

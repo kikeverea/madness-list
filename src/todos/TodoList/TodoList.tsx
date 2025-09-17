@@ -31,8 +31,8 @@ const TodoList = ({
   const { todoList, save, remove } = useTodos({ onSave: hideTodoForm })
 
   return (
-    <div className='border border-grey-200 pt-4 px-6 pb-6 rounded w-full sm:w-[450px]' aria-labelledby='list-name'>
-      <header className='flex items-center justify-between group'>
+    <div className='border border-grey-200 pt-4 px-4 pb-6 rounded w-full sm:w-[450px]' aria-labelledby='list-name'>
+      <header className='flex items-center justify-between group px-2'>
         {editList
           ? <ListForm value={name} onSubmit={() => ({})} onCancel={hideListForm} submitLabel='Save'/>
           : (
@@ -45,8 +45,7 @@ const TodoList = ({
                 icon={<FontAwesomeIcon icon={faPen}/>}
                 color='success'
                 onClick={() => setEditList(true)}
-                ariaLabel='edit'
-                labeledBy='list-name'
+                ariaLabel={`edit ${name}`}
               />
             </>)
         }

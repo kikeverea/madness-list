@@ -18,7 +18,6 @@ const IconButton = ({
   activeColor,
   onClick,
   className,
-  labeledBy,
   ariaLabel
 }: IconButtonProps) => {
 
@@ -29,12 +28,10 @@ const IconButton = ({
   return (
     <button
       className={`btn btn-flush ${colorScheme} text-sm ${className}`}
-      onClick={() => onClick()}
-      aria-labelledby={`${ariaLabel}-label ${labeledBy}`}
+      onClick={onClick}
+      aria-label={ariaLabel}
     >
-      <span id={`${ariaLabel}-label`} aria-label={ariaLabel}>
-        {icon}
-      </span>
+      <span aria-hidden="true">{icon}</span>
     </button>
   )
 }
