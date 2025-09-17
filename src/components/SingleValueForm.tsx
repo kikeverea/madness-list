@@ -18,6 +18,7 @@ type SingleValueFormProps = {
   onCancel: () => void
   error: string | null
   color?: string
+  className?: string
 }
 
 const SingleValueForm = ({
@@ -30,6 +31,7 @@ const SingleValueForm = ({
   onCancel,
   error,
   color = 'primary',
+  className = '',
 }: SingleValueFormProps) => {
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>): void => {
@@ -40,7 +42,7 @@ const SingleValueForm = ({
   }
 
   return (
-    <div className='w-full px-2'>
+    <div className={`w-full ${className}`}>
       <form key={formKey} onSubmit={onFormSubmit}>
         <div className='flex gap-4 items-center w-full'>
 

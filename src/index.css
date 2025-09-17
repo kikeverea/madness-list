@@ -29,7 +29,7 @@
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-lg cursor-pointer;
+    @apply px-4 py-1 text-sm md:py-2 md:text-base rounded-lg cursor-pointer;
   }
 
   .btn-primary {

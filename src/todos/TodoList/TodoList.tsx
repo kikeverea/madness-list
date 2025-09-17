@@ -73,7 +73,7 @@ const TodoList = ({
       {formTodo !== null
         ? <TodoForm value={formTodo} onSubmit={save} onCancel={hideTodoForm} submitLabel={submitLabel}/>
         : (
-          <button className='btn btn-primary' aria-label='add new todo' onClick={() => setFormTodo({})}>
+          <button className='btn btn-primary mx-1' aria-label='add new todo' onClick={() => setFormTodo({})}>
             {newButtonLabel}
           </button>
         )

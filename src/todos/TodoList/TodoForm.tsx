@@ -28,6 +28,7 @@ const TodoForm = ({ value: todo, onSubmit: onTodoSubmit, submitLabel, onCancel }
       onSubmit={onSubmit}
       onCancel={onCancel}
       error={error}
+      className='px-2'
     />
   )
 }
