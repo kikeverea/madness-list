@@ -8,7 +8,7 @@ const TodoForm = ({ value: todo, onSubmit: onTodoSubmit, submitLabel, onCancel }
   const [ error, setError ] = useState<string | null>(null)
 
   const onSubmit = (data: FormDataEntries) => {
-    const title = String(data['todo-title'] ?? "")
+    const title = String(data['todo-value'] ?? "")
 
     if (!title)
       setError("title can't be blank")

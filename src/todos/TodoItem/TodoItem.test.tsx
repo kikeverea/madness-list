@@ -35,13 +35,13 @@ describe('Todo Item', () => {
 
   test('renders an edit button', async () => {
     const item = screen.getByRole('listitem')
-    const editButton = within(item).getByRole('button', { name: /item 1 edit/i })
+    const editButton = within(item).getByRole('button', { name: /edit item 1/i })
 
     expect(editButton).toBeInTheDocument()
   })
 
   test('clicking the edit button calls its handler', async () => {
-    const editButton = screen.getByRole('button', { name: /item 1 edit/i })
+    const editButton = screen.getByRole('button', { name: /edit item 1/i })
 
     await userEvent.click(editButton)
     expect(editMock).toHaveBeenCalledWith(todo)
@@ -49,13 +49,13 @@ describe('Todo Item', () => {
 
   test('renders a delete button', () => {
     const item = screen.getByRole('listitem')
-    const deleteButton = within(item).getByRole('button', { name: /item 1 delete/i })
+    const deleteButton = within(item).getByRole('button', { name: /delete item 1/i })
 
     expect(deleteButton).toBeInTheDocument()
   })
 
   test('clicking the delete button calls its handler', async () => {
-    const deleteButton = screen.getByRole('button', { name: /item 1 delete/i })
+    const deleteButton = screen.getByRole('button', { name: /delete item 1/i })
 
     await userEvent.click(deleteButton)
     expect(deleteMock).toHaveBeenCalledWith(todo)

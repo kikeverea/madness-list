@@ -221,7 +221,7 @@ describe('Todo List', () => {
       await userEvent.click(submit)
 
       const itemsNow = screen.getAllByRole('listitem')
-      const errorMessage = screen.getByLabelText('title error')
+      const errorMessage = screen.getByLabelText('value error')
 
       expect(itemsNow).toHaveLength(itemsThen.length)
       expect(errorMessage).toBeInTheDocument()

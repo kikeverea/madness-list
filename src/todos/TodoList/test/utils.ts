@@ -12,7 +12,7 @@ export const list: TodoListType = [
 
 export const getForm = () => {
   const showButton = get('button', /add new todo/i)
-  const titleInput = get('textbox', /todo title/i)
+  const titleInput = get('textbox', /todo value/i)
   const submit = get('button', /submit todo/i)
   const cancel = get('button', /cancel todo/i)
 
@@ -20,7 +20,7 @@ export const getForm = () => {
 }
 
 export const getListForm = () => {
-  const nameInput = get('textbox', /todo-list title/i)
+  const nameInput = get('textbox', /todo-list value/i)
   const submit = get('button', /submit todo-list/i)
   const cancel = get('button', /cancel todo-list/i)
 

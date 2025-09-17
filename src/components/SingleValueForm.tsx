@@ -17,7 +17,7 @@ type SingleValueFormProps = {
   onSubmit: (data: FormDataEntries) => void
   onCancel: () => void
   error: string | null
-  color: string
+  color?: string
 }
 
 const SingleValueForm = ({
@@ -40,18 +40,18 @@ const SingleValueForm = ({
   }
 
   return (
-    <div className='w-full'>
+    <div className='w-full px-2'>
       <form key={formKey} onSubmit={onFormSubmit}>
-        <div className='flex gap-4 w-full'>
+        <div className='flex gap-4 items-center w-full'>
+
           <input
             type='text'
-            name={`${model}-title`}
-            className='flex-1 border rounded py-1 px-2'
+            name={`${model}-value`}
+            className='flex-1 border rounded py-1 px-2 w-full'
             defaultValue={defaultValue}
             placeholder={placeholder}
-            aria-label={`${model} title`}
+            aria-label={`${model} value`}
           />
-          {error && <div className='text-red-500' aria-label='title error'>{error}</div>}
 
           <input
             type='submit'
@@ -63,11 +63,12 @@ const SingleValueForm = ({
             type='button'
             className={`btn btn-flush btn-color-muted btn-active-color-${color} py-2 px-0`}
             aria-label={`cancel ${model}`}
-            onClick={onCancel}
+            onClick={() => onCancel()}
           >
             Cancel
           </button>
         </div>
+        {error && <div className='text-red-500 ps-1 pt-1 text-sm' aria-label='value error'>{error}</div>}
       </form>
     </div>
   )
