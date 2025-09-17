@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import SingleValueForm, { type SingleValueFormType } from '../SingleValueForm.tsx'
+import SingleValueForm, { type SingleValueFormType } from '../../components/SingleValueForm.tsx'
 import type { FormDataEntries } from '../../util/types.ts'
 
 const ListForm = ({ value: listName, onSubmit: onListSubmit, onCancel }: SingleValueFormType<string>) => {

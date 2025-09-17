@@ -1,7 +1,7 @@
-import type { Todo } from '../TodoList/types.ts'
+import type { Todo } from '../types.ts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import IconButton from '../IconButton.tsx'
+import IconButton from '../../components/IconButton.tsx'
 
 type TodoItemProps = {
   todo: Todo,

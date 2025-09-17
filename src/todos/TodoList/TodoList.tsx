@@ -1,10 +1,10 @@
-import type { FormTodo, Todo } from './types.ts'
+import type { FormTodo, Todo } from '../types.ts'
 import TodoForm from './TodoForm.tsx'
 import ListForm from './ListForm.tsx'
 import { useState } from 'react'
 import TodoItem from '../TodoItem/TodoItem.tsx'
-import useTodos from './useTodos.tsx'
-import IconButton from '../IconButton.tsx'
+import useTodos from './hooks/useTodos.tsx'
+import IconButton from '../../components/IconButton.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 

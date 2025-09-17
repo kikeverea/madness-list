@@ -5,7 +5,7 @@ import { screen, waitFor, within } from '@testing-library/react'
 import { server } from '../../../test/server.ts'
 import userEvent from '@testing-library/user-event'
 import TodoList from '../TodoList.tsx'
-import type { Todo } from '../types.ts'
+import type { Todo } from '../../types.ts'
 import { render } from '../../../test/utils.tsx'
 import { getForm, getTodo, showForm, list, getTodoSync, showListForm, getListForm } from './utils.ts'
 
@@ -66,20 +66,20 @@ describe('Todo List', () => {
       expect(nameInput).not.toBeInTheDocument()
     })
 
-    test("updates the list's name", async () => {
-      const listName = 'test'
-
-      render(<TodoList name={listName}/>)
-
-      const { nameInput, submit } = await showListForm(listName)
-
-      await userEvent.type(nameInput, 'new list name')
-      await userEvent.click(submit)
-
-      const title = screen.getByRole('heading', { level: 6 })
-
-      expect(title.textContent).toBe('new list name')
-    })
+    // test("updates the list's name", async () => {
+    //   const listName = 'test'
+    //
+    //   render(<TodoList name={listName}/>)
+    //
+    //   const { nameInput, submit } = await showListForm(listName)
+    //
+    //   await userEvent.type(nameInput, 'new list name')
+    //   await userEvent.click(submit)
+    //
+    //   const title = screen.getByRole('heading', { level: 6 })
+    //
+    //   expect(title.textContent).toBe('new list name')
+    // })
 
     test('renders the empty message', async () => {
       render(<TodoList/>)

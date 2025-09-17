@@ -1,5 +1,5 @@
-import type { FormTodo, Todo } from '../components/TodoList/types.ts'
-import { apiFetch } from './apiClient.ts'
+import type { FormTodo, Todo } from '../types.ts'
+import { apiFetch } from '../../api/apiClient.ts'
 
 const getTodos = async (): Promise<Todo[]> => {
   return await apiFetch<Todo[]>('/todos')

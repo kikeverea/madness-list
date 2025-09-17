@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import SingleValueForm, { type SingleValueFormType } from '../SingleValueForm.tsx'
+import SingleValueForm, { type SingleValueFormType } from '../../components/SingleValueForm.tsx'
 import type { FormDataEntries } from '../../util/types.ts'
-import type { FormTodo } from './types.ts'
+import type { FormTodo } from '../types.ts'
 
 const TodoForm = ({ value: todo, onSubmit: onTodoSubmit, submitLabel, onCancel }: SingleValueFormType<FormTodo>) => {
 

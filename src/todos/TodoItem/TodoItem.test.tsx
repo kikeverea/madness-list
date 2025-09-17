@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TodoItem from './TodoItem.tsx'
-import type { Todo } from '../TodoList/types.ts'
+import type { Todo } from '../types.ts'
 
 const todo: Todo = { id: 1, title: 'Item 1', completed: false }
 

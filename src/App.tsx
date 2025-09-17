@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import TodoList from './components/TodoList/TodoList.tsx'
-import { isPersisted } from './components/TodoList/types.ts'
+import TodoList from './todos/TodoList/TodoList.tsx'
+import { isPersisted } from './todos/types.ts'
 
 const queryClient = new QueryClient()
 

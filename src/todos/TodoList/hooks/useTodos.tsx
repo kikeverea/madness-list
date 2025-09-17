@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from '../../services/todoService.ts'
-import { isPersisted, type FormTodo, type Todo, type TodoListType } from './types.ts'
+import api from '../todoService.ts'
+import { isPersisted, type FormTodo, type Todo, type TodoListType } from '../../types.ts'
 
 const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?: (todo: Todo) => void }) => {
 

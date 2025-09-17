@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Todo, TodoListType } from '../types.ts'
+import type { Todo, TodoListType } from '../../types.ts'
 
 export const list: TodoListType = [
   { id: 1, title: 'Item 1', completed: false },
@@ -36,7 +36,7 @@ export const showForm = async () => {
 }
 
 export const showListForm = async (listName: string) => {
-  const pattern = new RegExp(`${listName} edit`, 'i')
+  const pattern = new RegExp(`edit ${listName}`, 'i')
   const editButton = screen.getByRole('button', { name: pattern }) as HTMLButtonElement
 
   await userEvent.click(editButton)
