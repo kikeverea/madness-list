@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import api from '../todoService.ts'
-import { isPersisted, type FormTodo, type Todo, type TodoListType } from '../../types.ts'
+import { isPersisted, type FormTodo, type Todo } from '../../types.ts'
 
 const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?: (todo: Todo) => void }) => {
 
@@ -11,7 +11,7 @@ const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?
   const createMutation = useMutation({
     mutationFn: api.createTodo,
     onSuccess: created => {
-      client.setQueryData<TodoListType>([ 'todos' ], (prev = []) => [ ...prev, created ])
+      client.setQueryData<Todo[]>([ 'todos' ], (prev = []) => [ ...prev, created ])
       if (onMutationSuccess?.onSave) onMutationSuccess.onSave(created)
     }
   })
@@ -19,7 +19,7 @@ const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?
   const updateMutation = useMutation({
     mutationFn: api.updateTodo,
     onSuccess: updated => {
-      client.setQueryData<TodoListType>(
+      client.setQueryData<Todo[]>(
         [ 'todos' ],
         (prev = []) => prev.map(todo => todo.id === updated.id ? updated : todo)
       )
@@ -30,13 +30,13 @@ const useTodos = (onMutationSuccess?: { onSave?: (todo: Todo) => void, onRemove?
   const deleteMutation = useMutation({
     mutationFn: api.deleteTodo,
     onSuccess: deleted => {
-      client.setQueryData<TodoListType>([ 'todos' ], (prev = []) => prev.filter(todo => todo.id !== deleted.id))
+      client.setQueryData<Todo[]>([ 'todos' ], (prev = []) => prev.filter(todo => todo.id !== deleted.id))
       if (onMutationSuccess?.onRemove) onMutationSuccess.onRemove(deleted)
     }
   })
 
   const save = (todo: Todo | FormTodo) => {
-    if (isPersisted(todo))
+    if (isPersisted<Todo>(todo))
       updateMutation.mutate(todo)
     else
       createMutation.mutate(todo)

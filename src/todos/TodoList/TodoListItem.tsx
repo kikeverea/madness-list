@@ -15,7 +15,7 @@ type TodoListProps = {
   submitLabel?: string | ((todo: FormTodo) => string)
 }
 
-const TodoList = ({
+const TodoListItem = ({
   name = 'To-Do List',
   newButtonLabel = 'Add new',
   noItemsMessage = 'This list is empty',
@@ -82,4 +82,4 @@ const TodoList = ({
   )
 }
 
-export default TodoList
+export default TodoListItem
