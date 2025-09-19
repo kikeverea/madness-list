@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Todo, TodoListType } from '../../types.ts'
+import type { Todo } from '../../types.ts'
 
-export const list: TodoListType = [
+export const list: Todo[] = [
   { id: 1, title: 'Item 1', completed: false },
   { id: 2, title: 'Item 2', completed: false },
   { id: 3, title: 'Item 3', completed: true },
