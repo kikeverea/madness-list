@@ -5,7 +5,7 @@ type IconButtonProps = {
   color?: string,
   buttonColor?: string,
   activeColor?: string,
-  onClick: () => void,
+  onClick: (args?: unknown) => void,
   labeledBy?: string,
   ariaLabel?: string,
   className?: string,

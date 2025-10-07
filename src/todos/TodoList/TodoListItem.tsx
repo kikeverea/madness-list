@@ -1,4 +1,4 @@
-import type { FormTodo, Todo } from '../types.ts'
+import type { FormTodo, Todo, TodoList } from '../types.ts'
 import TodoForm from './TodoForm.tsx'
 import ListForm from './ListForm.tsx'
 import { useState } from 'react'
@@ -9,14 +9,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 type TodoListProps = {
-  name?: string
+  list: TodoList
   newButtonLabel?: string
   noItemsMessage?: string
   submitLabel?: string | ((todo: FormTodo) => string)
 }
 
-const TodoList = ({
-  name = 'To-Do List',
+const TodoListItem = ({
+  list,
   newButtonLabel = 'Add new',
   noItemsMessage = 'This list is empty',
   submitLabel,
@@ -28,24 +28,30 @@ const TodoList = ({
   const hideListForm = () => setEditList(false)
   const hideTodoForm = () => setFormTodo(null)
 
-  const { todoList, save, remove } = useTodos({ onSave: hideTodoForm })
+  const { todoList, status, save, remove } = useTodos(list)
+  const { pending, errors } = status
+
+  const saveTodo = (todo: FormTodo) => {
+    save(todo)
+    hideListForm()
+  }
 
   return (
     <div className='border border-grey-200 pt-4 px-4 pb-6 rounded w-full sm:w-[450px]' aria-labelledby='list-name'>
       <header className='flex items-center justify-between group px-2'>
         {editList
-          ? <ListForm value={name} onSubmit={() => ({})} onCancel={hideListForm} submitLabel='Save'/>
+          ? <ListForm value={list.name} onSubmit={() => ({})} onCancel={hideListForm} submitLabel='Save'/>
           : (
             <>
               <h6 id='list-name' className='mb-2 underline-offset-8 underline'>
-                {name}
+                {list.name}
               </h6>
               <IconButton
                 className='hidden group-hover:block'
                 icon={<FontAwesomeIcon icon={faPen}/>}
                 color='success'
                 onClick={() => setEditList(true)}
-                ariaLabel={`edit ${name}`}
+                ariaLabel={`edit ${list.name}`}
               />
             </>)
         }
@@ -53,17 +59,33 @@ const TodoList = ({
       </header>
 
       <div className='py-2'>
-        {todoList?.length
+        { todoList?.length || pending.creating
           ? (
             <ul>
-              {todoList.map((todo: Todo) =>
+              {todoList.map((todo: Todo) => {
+                return (
+                  <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    onChecked={saveTodo}
+                    onEdit={setFormTodo}
+                    onDelete={remove}
+                    pending={ pending.isPending(todo) }
+                    error={ errors.error(todo) }
+                    redoAction={pending.updating ? saveTodo : pending.deleting ? remove : undefined}
+                  />
+                )
+              })}
+              {pending.creating &&
                 <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  onChecked={save}
+                  key='new-todo'
+                  todo={{ ...pending.creating } as Todo}
+                  onChecked={saveTodo}
                   onEdit={setFormTodo}
                   onDelete={remove}
-                />)
+                  pending={true}
+                  redoAction={saveTodo}
+                />
               }
             </ul>)
           : <p className='italic text-sm text-gray-500' aria-label='empty list message'>{noItemsMessage}</p>
@@ -82,4 +104,4 @@ const TodoList = ({
   )
 }
 
-export default TodoList
+export default TodoListItem
