@@ -33,7 +33,7 @@ const TodoListItem = ({
 
   const saveTodo = (todo: FormTodo) => {
     save(todo)
-    hideListForm()
+    hideTodoForm()
   }
 
   return (
@@ -93,7 +93,7 @@ const TodoListItem = ({
       </div>
 
       {formTodo !== null
-        ? <TodoForm value={formTodo} onSubmit={save} onCancel={hideTodoForm} submitLabel={submitLabel}/>
+        ? <TodoForm value={formTodo} onSubmit={saveTodo} onCancel={hideTodoForm} submitLabel={submitLabel}/>
         : (
           <button className='btn btn-primary mx-1' aria-label='add new todo' onClick={() => setFormTodo({})}>
             {newButtonLabel}

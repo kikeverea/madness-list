@@ -1,8 +1,8 @@
-import type { FormTodo, Todo } from '../types.ts'
+import type { FormTodo, Todo, TodoList } from '../types.ts'
 import { apiFetch } from '../../api/apiClient.ts'
 
-const getTodos = async (): Promise<Todo[]> => {
-  return await apiFetch<Todo[]>('/todos')
+const getTodos = async (listId: TodoList['id']): Promise<Todo[]> => {
+  return await apiFetch<Todo[]>(`/${listId}/todos`)
 }
 
 const getTodo = async (id: Todo['id']): Promise<Todo> => {

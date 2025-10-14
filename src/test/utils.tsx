@@ -7,6 +7,10 @@ export function render(children: ReactNode) {
     defaultOptions: {
       queries: {
         retry: false,
+        staleTime: 0,                 // everything is stale immediately
+        refetchOnMount: 'always',     // force refetch even with initialData
+        refetchOnWindowFocus: false,
+        gcTime: Infinity
       },
       mutations: {
         retry: false,

@@ -24,24 +24,24 @@ const useTodos = (list: TodoList) => {
 
   const { data: todoList, isPending, isError } = useQuery({
     queryKey: [ list.id, 'todos' ],
-    queryFn: api.getTodos,
+    queryFn: () => api.getTodos(list.id),
     initialData: list.todos,
     staleTime: 30_000
   })
 
   const createMutation = useMutation({
     mutationFn: api.createTodo,
-    onSettled: () => client.invalidateQueries({ queryKey: [ list.id, list.todos ] }),
+    onSettled: () => client.invalidateQueries({ queryKey: [ list.id, 'todos' ] }),
   })
 
   const updateMutation = useMutation({
     mutationFn: api.updateTodo,
-    onSettled: () => client.invalidateQueries({ queryKey: [ list.id, list.todos ] }),
+    onSettled: () => client.invalidateQueries({ queryKey: [ list.id, 'todos' ] }),
   })
 
   const deleteMutation = useMutation({
     mutationFn: api.deleteTodo,
-    onSettled: () => client.invalidateQueries({ queryKey: [ list.id, list.todos ] }),
+    onSettled: () => client.invalidateQueries({ queryKey: [ list.id, 'todos' ] }),
   })
 
   const save = (todo: Todo | FormTodo) => {
