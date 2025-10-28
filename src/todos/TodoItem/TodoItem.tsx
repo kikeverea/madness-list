@@ -1,4 +1,4 @@
-import type {FormTodo, Todo} from '../types.ts'
+import type { FormTodo, Todo } from '../types.ts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash, faRotateRight } from '@fortawesome/free-solid-svg-icons'
 import IconButton from '../../components/IconButton.tsx'
@@ -15,12 +15,13 @@ type TodoItemProps = {
 }
 
 const TodoItem = ({ todo, onChecked, onEdit, onDelete, pending, error, redoAction }: TodoItemProps) => {
+
   return (
     <li className='p-2 group flex justify-between items-center hover:bg-gray-400 dark:hover:bg-gray-800'
-      data-testid={`item-${todo.id}`}
+        data-testid={`item-${todo.id}`}
     >
 
-      { error
+      {error
         ? <span className='flex-1 pe-2 text-red-800 italic'>
             {error}
           </span>
@@ -28,7 +29,6 @@ const TodoItem = ({ todo, onChecked, onEdit, onDelete, pending, error, redoActio
             {todo.title}
           </span>
       }
-
 
       <div className='flex items-center justify-end'>
 
@@ -59,7 +59,7 @@ const TodoItem = ({ todo, onChecked, onEdit, onDelete, pending, error, redoActio
               />
             </div>
 
-            { error && redoAction &&
+            {error && redoAction &&
               <IconButton
                 icon={<FontAwesomeIcon icon={faRotateRight}/>}
                 color='success'

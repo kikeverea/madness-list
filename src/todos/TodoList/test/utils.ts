@@ -1,14 +1,10 @@
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Todo } from '../../types.ts'
+import { todoList } from '../../../test/handlers.ts'
 
-export const list: Todo[] = [
-  { id: 1, title: 'Item 1', completed: false },
-  { id: 2, title: 'Item 2', completed: false },
-  { id: 3, title: 'Item 3', completed: true },
-  { id: 4, title: 'Item 4', completed: false },
-  { id: 5, title: 'Item 5', completed: true },
-]
+export const regex = (text: string): RegExp =>
+  new RegExp(text, 'i')
 
 export const getForm = () => {
   const showButton = get('button', /add new todo/i)
@@ -33,6 +29,26 @@ export const showForm = async () => {
   await userEvent.click(showButton)
 
   return getForm()
+}
+
+export async function submitNewTodo(text: string) {
+  const { titleInput, submit } = await showForm()
+  await userEvent.type(titleInput, text)
+  await userEvent.click(submit)
+}
+
+export async function submitUpdateTodoWithTitle(text: string) {
+  const [ todoElement, todo ] = await getTodo(0)
+  const newTitle = `${todo.title}${text}`
+
+  const editButton = within(todoElement).getByRole('button', { name: regex(`edit ${todo.title}`) })
+  await userEvent.click(editButton)
+
+  const { titleInput, submit } = getForm()
+  await userEvent.type(titleInput, text)
+  await userEvent.click(submit)
+
+  return newTitle
 }
 
 export const showListForm = async (listName: string) => {
@@ -60,5 +76,5 @@ const get = (role: string, name: RegExp): HTMLButtonElement => {
 
 const randomTodo = (items: HTMLElement[], index?: number): readonly [ HTMLElement, Todo, number ] => {
   const randIndex = index ?? Math.floor(Math.random() * items.length)
-  return [ items[randIndex], list[randIndex], randIndex ]
+  return [ items[randIndex], todoList[randIndex], randIndex ]
 }

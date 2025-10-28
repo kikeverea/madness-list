@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from '../todoService.ts'
+import api from '../services/todoService.ts'
 import { isPersisted, type FormTodo, type Todo, type TodoList, type NewTodo } from '../../types.ts'
 
 type TodoActions<T> = {
@@ -10,11 +10,13 @@ type TodoActions<T> = {
   any: boolean,
 }
 
-type PendingAction = { isPending: (todo: Todo | NewTodo) => boolean }
+type PendingActions = {
+  current: (todo: Todo) => Todo | null
+}
 type ErrorAction = { error: (todo: Todo) => string }
 
 type TodoMutationStatus = {
-  pending: TodoActions<Todo | NewTodo> & PendingAction,
+  pending: TodoActions<Todo | NewTodo> & PendingActions,
   errors: TodoActions<Todo | NewTodo> & ErrorAction,
 }
 
@@ -30,17 +32,17 @@ const useTodos = (list: TodoList) => {
   })
 
   const createMutation = useMutation({
-    mutationFn: api.createTodo,
+    mutationFn: (todo: FormTodo) => api.createTodo(list.id, todo),
     onSettled: () => client.invalidateQueries({ queryKey: [ list.id, 'todos' ] }),
   })
 
   const updateMutation = useMutation({
-    mutationFn: api.updateTodo,
+    mutationFn: (todo: Todo) => api.updateTodo(list.id, todo),
     onSettled: () => client.invalidateQueries({ queryKey: [ list.id, 'todos' ] }),
   })
 
   const deleteMutation = useMutation({
-    mutationFn: api.deleteTodo,
+    mutationFn: (todo: Todo) => api.deleteTodo(list.id, todo),
     onSettled: () => client.invalidateQueries({ queryKey: [ list.id, 'todos' ] }),
   })
 
@@ -60,10 +62,11 @@ const useTodos = (list: TodoList) => {
       updating: updateMutation.isPending ? updateMutation.variables : null,
       deleting: deleteMutation.isPending ? deleteMutation.variables : null,
       any: createMutation.isPending || updateMutation.isPending || deleteMutation.isPending,
-      isPending: (todo) => (
-        (createMutation.isPending && createMutation.variables.id === todo.id) ||
-        (updateMutation.isPending && updateMutation.variables.id === todo.id) ||
-        (deleteMutation.isPending && deleteMutation.variables.id === todo.id)
+      current: (todo) => (
+        (createMutation.isPending && createMutation.variables.id === todo.id && createMutation.variables as Todo) ||
+        (updateMutation.isPending && updateMutation.variables.id === todo.id && updateMutation.variables) ||
+        (deleteMutation.isPending && deleteMutation.variables.id === todo.id && deleteMutation.variables) ||
+        null
       )
     },
     errors: {

@@ -9,7 +9,7 @@ const TodoForm = ({ value: todo, onSubmit: onTodoSubmit, submitLabel, onCancel }
 
   const onSubmit = (data: FormDataEntries) => {
     const title = String(data['todo-value'] ?? "")
-
+    
     if (!title)
       setError("title can't be blank")
     else
