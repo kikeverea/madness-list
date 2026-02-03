@@ -1,8 +1,8 @@
-import type { FormTodo, Todo } from '../types.ts'
-import { apiFetch } from '../../api/apiClient.ts'
+import type { FormTodo, Todo, TodoList } from '../../types.ts'
+import { apiFetch } from '../../../api/apiClient.ts'
 
-const getTodos = async (): Promise<Todo[]> => {
-  return await apiFetch<Todo[]>('/todos')
+const getTodos = async (listId: TodoList['id']): Promise<Todo[]> => {
+  return await apiFetch<Todo[]>(`/lists/${listId}/todos`)
 }
 
 const getTodo = async (id: Todo['id']): Promise<Todo> => {
@@ -24,8 +24,7 @@ const updateTodo = async (todo: Todo): Promise<Todo> => {
 }
 
 const deleteTodo = async (todo: Todo): Promise<Todo> => {
-  await apiFetch<boolean>(`/todos/${todo.id}`, { method: 'DELETE' })
-  return todo
+  return await apiFetch<Todo>(`/todos/${todo.id}`, { method: 'DELETE' })
 }
 
 export default { getTodos, getTodo, createTodo, updateTodo, deleteTodo }

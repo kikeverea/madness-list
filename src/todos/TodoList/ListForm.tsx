@@ -7,7 +7,7 @@ const ListForm = ({ value: listName, onSubmit: onListSubmit, onCancel }: SingleV
   const [ error, setError ] = useState<string | null>(null)
 
   const onSubmit = (data: FormDataEntries) => {
-    const name = String(data['list-value'] ?? "")
+    const name = String(data['todo-list-value'] ?? "")
 
     if (!name)
       setError("title can't be blank")
