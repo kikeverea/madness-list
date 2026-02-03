@@ -1,0 +1,179 @@
+{
+  "uuid": "a9aaa19b-f51c-4df3-a36f-805ec3c5fc85",
+  "lastMigration": 33,
+  "name": "Madness list",
+  "endpointPrefix": "api",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "bbd54bce-7a6e-4bf1-a22b-c4035cb03d29",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "lists",
+      "responses": [
+        {
+          "uuid": "594db41c-d8b7-4ab4-a057-ebe96969cbe4",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "gmp8",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e2d2bdea-f69c-43db-bc24-2370a1157379",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "todos",
+      "responses": [
+        {
+          "uuid": "fbd51bfe-680e-4882-811a-7d1144f41bfb",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "9e8d",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6dc9478e-9b56-465d-ab0f-105b560eaecf",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "lists/:id/todos",
+      "responses": [
+        {
+          "uuid": "0488c2bd-8f57-4fa1-85d1-8b0fb31e20fd",
+          "body": "{{{ stringify (\n  filter (dataRaw 'To-dos')\n  (object listId=(parseInt (urlParam 'id')))\n) }}}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "9e8d",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "bbd54bce-7a6e-4bf1-a22b-c4035cb03d29"
+    },
+    {
+      "type": "route",
+      "uuid": "e2d2bdea-f69c-43db-bc24-2370a1157379"
+    },
+    {
+      "type": "route",
+      "uuid": "6dc9478e-9b56-465d-ab0f-105b560eaecf"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "06414d59-9aeb-48e2-b571-f0b6ae116a71",
+      "id": "9e8d",
+      "name": "To-dos",
+      "documentation": "",
+      "value": "[\n  {\n      \"id\": 1,\n      \"title\": \"Item 1\",\n      \"completed\": true,\n      \"listId\": 1\n    },\n    {\n      \"id\": 2,\n      \"title\": \"Item 2\",\n      \"completed\": false,\n      \"listId\":  1\n    },\n    {\n      \"id\": 3,\n      \"title\": \"Item 3\",\n      \"completed\": true,\n      \"listId\":  1\n    },\n    {\n      \"id\": 4,\n      \"title\": \"Item 4\",\n      \"completed\": false,\n      \"listId\":  1\n    },\n    {\n      \"id\": 5,\n      \"title\": \"Item 6\",\n      \"completed\": true,\n      \"listId\":  1\n    }\n]"
+    },
+    {
+      "uuid": "c9d6d3bc-5bb6-4841-9c8c-222629c562c9",
+      "id": "gmp8",
+      "name": "Lists",
+      "documentation": "",
+      "value": "[\n  {\n    \"id\" : 1,\n    \"name\": \"To-Do List\"\n  }\n]"
+    }
+  ],
+  "callbacks": []
+}
