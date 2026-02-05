@@ -48,10 +48,12 @@ const TodoListItem = ({
               submitLabel='Save'
             />)
           : (
-            <>
-              <h6 id={`list-${list.id}-name`} className='mb-2 underline-offset-8 underline'>
-                {todoList.name}
-              </h6>
+            <div className='flex items-center gap-2 w-full'>
+              <div className="flex-1">
+                <h6 id={`list-${list.id}-name`} className='mb-2 underline-offset-8 underline'>
+                  {todoList.name || 'no title'}
+                </h6>
+              </div>
               <IconButton
                 className='hidden group-hover:block'
                 icon={<FontAwesomeIcon icon={faTrash}/>}
@@ -66,7 +68,7 @@ const TodoListItem = ({
                 onClick={() => setEditList(true)}
                 ariaLabel={`edit ${todoList.name}`}
               />
-            </>)
+            </div>)
         }
       </header>
 
