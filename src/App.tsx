@@ -9,7 +9,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className='m-8 h-full'>
+      <div className='my-8 mx-4 md:mx-8 h-full'>
         <TodoLists list={{ id: 1, name: 'list', todos: []}} submitLabel={todo => isPersisted(todo) ? "Save" : "Add"}/>
       </div>
     </QueryClientProvider>
