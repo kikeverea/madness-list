@@ -10,14 +10,14 @@ type TooltipProps = TooltipType & {
   className?: string
 }
 
-const Tooltip = ({ title, position = 'top', children, className }: TooltipProps) => {
+const positionClasses: Record<string, string> = {
+  top: 'bottom-full mb-1 left-1/2 -translate-x-1/2',
+  right: 'left-full ms-2 top-1/2 -translate-y-1/2',
+  bottom: 'top-full mt-1 left-1/2 -translate-x-1/2 mb-1',
+  left: 'right-full me-2 top-1/2 -translate-y-1/2',
+}
 
-  const positionClasses: Record<string, string> = {
-    top: 'bottom-full mb-1 left-1/2 -translate-x-1/2',
-    right: 'left-full ms-2 top-1/2 -translate-y-1/2',
-    bottom: 'top-full mt-1 left-1/2 -translate-x-1/2 mb-1',
-    left: 'right-full me-2 top-1/2 -translate-y-1/2',
-  };
+const Tooltip = ({ title, position = 'top', children, className }: TooltipProps) => {
 
   return (
     <div className={`relative group overflow-visible ${className}`}>

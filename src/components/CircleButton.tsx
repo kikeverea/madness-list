@@ -8,7 +8,7 @@ type CircleButtonProps = {
   onClick: (args?: unknown) => void,
   ariaLabel?: string,
   className?: string,
-  size?: number
+  size?: string
   tooltip?: string | TooltipType
 }
 
@@ -18,27 +18,34 @@ const getTooltip = (tooltip: string | TooltipType): TooltipType => {
     : tooltip
 }
 
+const sizes: Record<string, string[]> = {
+  sm: [ 'w-[24px] h-[24px]', "text-[12px] mb-0.5" ],
+  md: [ 'w-[32px] h-[32px]', "" ],
+  lg: [ 'w-[48px] h-[48px]', "text-2xl" ],
+}
+
 const CircleButton = ({
   icon,
   color = 'bg-blue-400',
   hoverColor = 'hover:bg-blue-500',
   onClick,
   ariaLabel,
-  size = 32,
+  size = 'md',
   tooltip,
   className,
 }: CircleButtonProps) => {
 
   const tooltipProps = tooltip ? getTooltip(tooltip) : null
+  const [ buttonSize, fontSize ] = sizes[size]
 
   const button = (
     <button
       type='button'
-      className={`rounded-full ${color} ${hoverColor} w-[${size}px] h-[${size}px] cursor-pointer`}
+      className={`rounded-full ${color} ${hoverColor} ${buttonSize} cursor-pointer`}
       onClick={onClick}
       aria-label={ariaLabel}
     >
-      <span aria-hidden="true">{icon}</span>
+      <div aria-hidden="true" className={fontSize}>{icon}</div>
     </button>
   )
 
@@ -46,7 +53,7 @@ const CircleButton = ({
     tooltipProps
       ? (
         <Tooltip title={tooltipProps.title} position={tooltipProps.position} className={className}>
-          { button }
+          {button}
         </Tooltip>
       )
       : button
