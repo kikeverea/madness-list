@@ -48,7 +48,7 @@ describe('Todo List', () => {
       expect(button.textContent).toBe('new button label')
     })
 
-    test('clicking on the add new button, hides it and shows the add new form', async () => {
+    test('clicking on the add new button, hides it and shows the add new form_components', async () => {
       render(<TodoListCollection list={list}/>)
 
       const { showButton, titleInput, submit, cancel } = getForm()
@@ -69,7 +69,7 @@ describe('Todo List', () => {
       expect(cancelNow).toBeInTheDocument()
     })
 
-    test('clicking on the cancel button, hides the form', async () => {
+    test('clicking on the cancel button, hides the form_components', async () => {
       render(<TodoListCollection list={list}/>)
 
       const { showButton: showButton } = getForm()
@@ -174,7 +174,7 @@ describe('Todo List', () => {
       expect(itemsNow).toHaveLength(itemsThen.length)
     })
 
-    test("clicking an item's edit button shows the form with the todo's title", async () => {
+    test("clicking an item's edit button shows the form_components with the todo's title", async () => {
       const [ todoElement, todo ] = await getTodo()
 
       const editButton = within(todoElement).getByRole('button', { name: regex(`edit ${todo.title}`) })

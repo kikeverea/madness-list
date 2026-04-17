@@ -25,7 +25,7 @@ const TodoListItem = ({
 
   const hideListForm = () => setEditList(false)
 
-  const { todoList, listPending, listError, saveList, removeList } = useTodoList(list)
+  const { todoList, saveList } = useTodoList(list)
 
   const saveTodoList = (name: string) => {
     saveList({ ...list, name})

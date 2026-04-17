@@ -1,5 +1,7 @@
 import type { FormEvent } from 'react'
-import type { FormDataEntries } from '../util/types.ts'
+import type { FormDataEntries } from '../../util/types.ts'
+import Input from './input/Input.tsx'
+import Button from './button/Button.tsx'
 
 export type SingleValueFormType<T> = {
   value: T,
@@ -46,29 +48,21 @@ const SingleValueForm = ({
       <form key={formKey} onSubmit={onFormSubmit}>
         <div className='flex gap-4 items-center w-full'>
 
-          <input
-            type='text'
+          <Input
             name={`${model}-value`}
-            className='flex-1 border rounded py-1 px-2 w-full'
-            defaultValue={defaultValue}
-            placeholder={placeholder}
+            defaultValue={ defaultValue }
+            placeholder={ placeholder }
             aria-label={`${model} value`}
           />
 
-          <input
-            type='submit'
-            className={`btn btn-${color}`}
-            value={submitLabel}
-            aria-label={`submit ${model}`}
-          />
-          <button
-            type='button'
-            className={`btn btn-flush btn-color-muted btn-active-color-${color} py-2 px-0`}
+          <Input type='submit' value={submitLabel} aria-label={`submit ${model}`}/>
+          <Button
+            styleType='secondary'
             aria-label={`cancel ${model}`}
             onClick={() => onCancel()}
           >
             Cancel
-          </button>
+          </Button>
         </div>
         {error && <div className='text-red-500 ps-1 pt-1 text-sm' aria-label='value error'>{error}</div>}
       </form>

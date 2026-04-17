@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
+
+@theme {
+  --font-label: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 @tailwind utilities;
 
@@ -29,32 +34,26 @@
 
 @layer components {
   .btn {
-    @apply px-4 py-1 text-sm md:py-2 md:text-base rounded-lg cursor-pointer;
+    @apply px-5 py-2 text-sm font-label font-bold md:text-base rounded-4xl cursor-pointer
   }
-
   .btn-primary {
     @apply bg-blue-600 text-white hover:bg-blue-700;
   }
 
-  .btn-color-success {
+  .btn-success {
     @apply bg-green-600 hover:bg-green-700;
   }
 
-  .btn-info {
-    @apply bg-purple-600 hover:bg-purple-700;
+  .btn-warning {
+    @apply bg-amber-600 hover:bg-amber-700;
   }
 
-  .btn-color-danger {
+  .btn-danger {
     @apply bg-red-700 hover:bg-red-800;
   }
 
-
-  .btn-link {
-    @apply text-blue-600 hover:text-blue-700;
-  }
-
-  .btn-flush {
-    @apply p-0;
+  .btn-info {
+    @apply bg-indigo-600 hover:bg-indigo-700;
   }
 
   .btn-color-primary {
@@ -66,11 +65,23 @@
   }
 
   .btn-color-info {
-    @apply text-purple-600 hover:text-purple-700;
+    @apply text-indigo-600 hover:text-indigo-700;
+  }
+
+  .btn-color-warning {
+    @apply bg-amber-600 hover:bg-amber-700;
   }
 
   .btn-color-danger {
     @apply text-red-700 hover:text-red-800;
+  }
+
+  .btn-link {
+    @apply text-blue-600 hover:text-blue-700;
+  }
+
+  .btn-flush {
+    @apply p-0;
   }
 
   .btn-color-muted {
@@ -86,7 +97,11 @@
   }
 
   .btn-active-color-info {
-    @apply hover:text-purple-600;
+    @apply hover:text-indigo-600;
+  }
+
+  .btn-active-color-warning {
+    @apply hover:text-amber-600;
   }
 
   .btn-active-color-danger {
@@ -109,5 +124,29 @@
     checked:[&:after]:items-center
     checked:[&:after]:justify-center
     cursor-pointer;
+  }
+
+  .scrollbar-modern {
+    @apply overflow-y-auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(107 114 128 / 0.45) transparent;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb {
+    background-color: rgb(107 114 128 / 0.45);
+    @apply rounded-full border-2 border-transparent;
+    background-clip: padding-box;
+  }
+
+  .scrollbar-modern:hover::-webkit-scrollbar-thumb {
+    background-color: rgb(107 114 128 / 0.65);
   }
 }

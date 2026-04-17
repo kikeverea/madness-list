@@ -60,7 +60,7 @@ describe('Todo Item', () => {
 
   test('renders error if present', () => {
     const error = screen.getByLabelText('value error')
-    expect(error.textContent).toBe('form error')
+    expect(error.textContent).toBe('form_components error')
   })
 
   test('clicking the submit button calls its handler', async () => {

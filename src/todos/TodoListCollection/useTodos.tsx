@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from '../TodoList/services/todoService.ts'
+import api from '../services/todo.service.ts'
 import { isPersisted, type FormTodo, type Todo, type TodoList, type NewTodo } from '../types.ts'
 
 type TodoActions<T> = {

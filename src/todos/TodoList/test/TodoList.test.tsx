@@ -25,7 +25,7 @@ describe('Todo List', () => {
     expect(title.textContent).toBe(list.name)
   })
 
-  test("clicking on the list edit button shows the list's form", async () => {
+  test("clicking on the list edit button shows the list's form_components", async () => {
     const editButton = screen.getByRole('button', { name: regex(`edit ${list.name}`) })
     await userEvent.click(editButton)
 
@@ -36,7 +36,7 @@ describe('Todo List', () => {
     expect(cancel).toBeInTheDocument()
   })
 
-  test("clicking on the cancel list edit button hides the list's form", async () => {
+  test("clicking on the cancel list edit button hides the list's form_components", async () => {
     const editButton = screen.getByRole('button', { name: regex(`edit ${list.name}`) })
     await userEvent.click(editButton)
 

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from './services/listService.ts'
+import api from '../services/list.service.ts'
 import { type TodoList } from '../types.ts'
 
 const useTodoList = (list: TodoList) => {
